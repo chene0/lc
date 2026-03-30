@@ -7,5 +7,3 @@ class Solution:
             for coin in coins:
                 if a - coin >= 0:
                     counts[a] = min(counts[a], 1 + counts[a - coin])
-
-        return counts[amount] if counts[amount] != amount + 1 else -1
