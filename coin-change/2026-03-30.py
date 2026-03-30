@@ -3,7 +3,8 @@ class Solution:
         counts = [amount + 1] * (amount + 1)
         counts[0] = 0
 
-        for a in range(amount + 1):
-            for coin in coins:
-                if a - coin >= 0:
-                    counts[a] = min(counts[a], 1 + counts[a - coin])
+        for coin in coins:
+            for a in range(coin, amount + 1):
+                counts[a] = min(counts[a], counts[a - coin] + 1)
+
+        return counts[amount] if counts[amount] != amount + 1 else -1
