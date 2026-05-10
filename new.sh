@@ -21,7 +21,24 @@ fi
 SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 PROBLEM_DIR="$SCRIPT_DIR/$PROBLEM"
 DATE=$(date +%Y-%m-%d)
-FILE="$PROBLEM_DIR/$DATE.py"
+
+EXTENSIONS_FILE="$SCRIPT_DIR/extensions.txt"
+if [[ ! -f "$EXTENSIONS_FILE" ]]; then
+    echo "Error: extensions file not found at $EXTENSIONS_FILE" >&2
+    exit 1
+fi
+
+mapfile -t EXTS < "$EXTENSIONS_FILE"
+
+echo "Select a file extension:"
+select EXT in "${EXTS[@]}"; do
+    if [[ -n "$EXT" ]]; then
+        break
+    fi
+    echo "Invalid selection, try again." >&2
+done
+
+FILE="$PROBLEM_DIR/$DATE.$EXT"
 
 mkdir -p "$PROBLEM_DIR"
 
