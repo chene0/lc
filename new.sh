@@ -28,7 +28,10 @@ if [[ ! -f "$EXTENSIONS_FILE" ]]; then
     exit 1
 fi
 
-mapfile -t EXTS < "$EXTENSIONS_FILE"
+EXTS=()
+while IFS= read -r ext || [[ -n "$ext" ]]; do
+    EXTS+=("$ext")
+done < "$EXTENSIONS_FILE"
 
 echo "Select a file extension:"
 select EXT in "${EXTS[@]}"; do
