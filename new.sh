@@ -45,9 +45,11 @@ FILE="$PROBLEM_DIR/$DATE.$EXT"
 
 mkdir -p "$PROBLEM_DIR"
 
-if [[ -f "$FILE" ]]; then
-    echo "Already exists: $FILE"
-else
-    touch "$FILE"
-    echo "Created: $FILE"
-fi
+SUFFIX=1
+while [[ -e "$FILE" || -L "$FILE" ]]; do
+    FILE="$PROBLEM_DIR/$DATE-$SUFFIX.$EXT"
+    SUFFIX=$((SUFFIX + 1))
+done
+
+touch "$FILE"
+echo "Created: $FILE"
